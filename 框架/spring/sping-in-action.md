@@ -30,6 +30,8 @@ web测试需要的注解
 
 代码示例：**详细内容后期详细了解**
 
+方式一：
+
 ```java
 package tacos;
 
@@ -58,6 +60,56 @@ public class HomeControllerTest {
     }
 }
 ```
+
+方式二：
+
+```java
+import com.dareway.websocket.server.WebsocketServerApplication;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,classes = WebsocketServerApplication.class)
+@AutoConfigureMockMvc
+public class WebClientTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Test
+    public void testOnlineCount() throws Exception {
+        mockMvc.perform(get("/onlineClient/showAll")
+                .header("appId","digitalbox")
+                .header("appToken","3a9e82cf29124d30ac2be28b0b58c7e5")
+                .header("clientId","user"))
+                .andExpect(status().is(200));
+    }
+}
+```
+
+**WebSocket单元测试问题**
+
+```java
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+//websocket需要加入web环境，但是正常情况下测试不会
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class WebsocketServerApplicationTests {
+
+    @Test
+    void contextLoads() {
+
+    }
+
+}
+```
+
+
 
 ### 3.Devtools配置
 
