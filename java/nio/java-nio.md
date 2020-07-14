@@ -26,3 +26,29 @@
 
 0 <= mark <= position <= limit <= capacity
 
+（1）所有的缓冲区都是可读的，但并不都是可写的
+
+### 3.通道
+
+（1）channel种类
+
+FileChannel
+
+SocketChannel
+
+ServerSocketChannel
+
+DatagramChannel
+
+
+
+（2）文件通道不能被设置为非阻塞
+
+（3）Scatter/Gather
+
+（4）文件通道
+
+文件锁依赖操作系统实现，基于文件本身而不是通道或者线程
+
+同一个jvm中多个线程是可以打开同一个文件的，而不同的虚拟机是不能打开同一个文件的
+
