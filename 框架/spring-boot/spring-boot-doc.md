@@ -135,3 +135,182 @@ new SpringApplicationBuilder()
 > 支持通配符匹配多个文件
 
 ####  2.1. Configuring Random Values
+
+> myconfig.name = ${random.uuid}
+
+只在properties文件中生效
+
+#### 2.2. Accessing Command Line Properties
+
+> --debug=false
+>
+> 可以通过SpringApplication.setAddCommandLineProperties(false)关闭
+
+#### 2.3. Application Property Files
+
+> 1. /config 目录
+> 2. 当前目录
+> 3. 类路径下的/config目录
+> 4. 类路径根目录
+
+**从上到下查询，后面的可以替换前面的属性值，优先级高**
+
+#### 2.4. Profile-specific Properties
+
+#### 2.5. Placeholders in Properties
+
+```properties
+app.name=MyApp
+app.description=${app.name} is a Spring Boot application
+```
+
+可以使用占位符，引用前面定义过的属性
+
+#### 2.6. Encrypting Properties
+
+#### 2.7. Using YAML Instead of Properties
+
+```java
+@ConfigurationProperties(prefix="my")
+public class Config {
+
+    private List<String> servers = new ArrayList<String>();
+
+    public List<String> getServers() {
+        return this.servers;
+    }
+}
+```
+
+yaml配置文件需要使用@ConfigurationProperties做结构化映射，不能使用@Value。
+
+#### 2.8. Type-safe Configuration Properties
+
+> @ConstructorBinding
+>
+> @ConfigurationProperties("acme")
+
+
+
+> @Configuration(proxyBeanMethods = false) 
+>
+> @EnableConfigurationProperties(AcmeProperties.class)
+
+通过@EnableConfigurationProperties(AcmeProperties.class)导入映射属性文件的javabean
+
+### 3. Profiles
+
+### 4. Logging
+
+#### 4.1. Log Format
+
+#### 4.2. Console Output
+
+##### 4.2.1. Color-coded Output
+
+#### 4.3. File Output
+
+#### 4.4. Log Levels
+
+#### 4.5. Log Groups
+
+#### 4.6. Custom Log Configuration
+
+#### 4.7. Logback Extensions
+
+##### 4.7.1. Profile-specific Configuration
+
+##### 4.7.2. Environment Properties
+
+### 5. Internationalization
+
+### 6. JSON
+
+#### 6.1. Jackson
+
+#### 6.2. Gson
+
+#### 6.3. JSON-B
+
+### 7. Developing Web Applications
+
+#### 7.1. The “Spring Web MVC Framework”
+
+#### 7.1.1. Spring MVC Auto-configuration
+
+MVC自动配置包含的内容
+
+> ContentNegotiatingViewResolver  ，BeanNameViewResolver
+>
+> 静态资源和webjar支持
+>
+> Converter，GenericConverter，Formatter
+>
+> HttpMessageConverters
+>
+> MessageCodesResolver
+>
+> index.html 静态html支持
+>
+> Favicon 图标支持
+>
+> ConfigurableWebBindingInitializer
+
+如果需要额外定制自己的MVC属性，实现WebMvcConfigurer接口并使用@Configuration注解，不要@EnableWebMvc注解，会覆盖掉默认的配置。
+
+> you can add your own `@Configuration` class of type `WebMvcConfigurer` but **without** `@EnableWebMvc`.
+
+保持默认配置的情况下定制组件
+
+> If you want to provide custom instances of `RequestMappingHandlerMapping`, `RequestMappingHandlerAdapter`, or `ExceptionHandlerExceptionResolver`, and still keep the Spring Boot MVC customizations, you can declare a bean of type `WebMvcRegistrations` and use it to provide custom instances of those components.
+
+#### 7.1.2. HttpMessageConverters
+
+定制自己的HttpMessageConverter
+
+```java
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.context.annotation.*;
+import org.springframework.http.converter.*;
+
+@Configuration(proxyBeanMethods = false)
+public class MyConfiguration {
+
+    @Bean
+    public HttpMessageConverters customConverters() {
+        HttpMessageConverter<?> additional = ...
+        HttpMessageConverter<?> another = ...
+        return new HttpMessageConverters(additional, another);
+    }
+
+}
+```
+
+#### 7.1.3. Custom JSON Serializers and Deserializers
+
+定制json序列化和反序列话
+
+```java
+import java.io.*;
+import com.fasterxml.jackson.core.*;
+import com.fasterxml.jackson.databind.*;
+import org.springframework.boot.jackson.*;
+
+@JsonComponent
+public class Example {
+
+    public static class Serializer extends JsonSerializer<SomeObject> {
+        // ...
+    }
+
+    public static class Deserializer extends JsonDeserializer<SomeObject> {
+        // ...
+    }
+
+}
+```
+
+#### 7.1.4. MessageCodesResolver
+
+#### 7.1.5. Static Content
+
