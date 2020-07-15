@@ -314,3 +314,187 @@ public class Example {
 
 #### 7.1.5. Static Content
 
+
+
+
+
+> --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## 附加
+
+### 1.主程序类
+
+```java
+@SpringBootApplication
+```
+
+组成：
+
+```java
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+```
+
+#### @SpringBootConfiguration：
+
+标记为spring的配置类
+
+#### @EnableAutoConfiguration：
+
+组成：
+
+```java
+@AutoConfigurationPackage
+@Import(AutoConfigurationImportSelector.class)
+```
+
+##### @AutoConfigurationPackage：
+
+```java
+@Import(AutoConfigurationPackages.Registrar.class)
+```
+
+注册要扫描的包
+
+##### @Import(AutoConfigurationImportSelector.class)：
+
+```java
+public static final String FACTORIES_RESOURCE_LOCATION = "META-INF/spring.factories";
+```
+
+从上述文件中读取所有自动配置类的全类名。
+
+#### @ComponentScan：
+
+配置扫描包的位置，可以配置过滤规则
+
+### 2.配置文件
+
+> application.properties
+>
+> application.yaml
+
+#### 2.1yaml基本语法
+
+```yaml
+spring:
+  application:
+    name: spring-boot-learn
+```
+
+key value键值对，冒号后面有空格，层级通过缩进控制，同缩进的层级相同，大小写敏感。
+
+#### 2.2值的写法
+
+##### 字面量
+
+默认字符串不需要单引号或者双引号
+
+双引号：不会转义字符串，\n输出就是换行
+
+单引号：会转义字符串，\n输出还是\n
+
+##### 对象 map
+
+普通写法：
+
+```yaml
+user: 
+  name: gaojian
+  sex: nan
+```
+
+行内写法：
+
+```yaml
+person: {name: gaojian,sex: nan}
+```
+
+##### 数组
+
+普通写法：
+
+```yaml
+pets: 
+  - cat
+  - dog
+  - pig
+```
+
+行内写法：
+
+```yaml
+people: [man,women,boy,girl]
+```
+
+#### 2.3将yaml中配置属性映射到类的属性
+
+```java
+/**
+ * 使用@ConfigurationProperties将yaml配置文件中的值映射到此类的属性上
+ * prefix代表在yaml的前缀值
+ * 必须使用@Component注册为Spring的组件
+ * 默认是从全局配置文件获取值
+ */
+@Component
+@ConfigurationProperties(prefix = "person")
+```
+
+```yaml
+person:
+  name: gaojian
+  age: 20
+  death: false
+  maps:
+    key1: value1
+    key2: value2
+  list:
+    - demo
+    - test
+    - prod
+  dog:
+    name: mydog
+    age: 12
+```
+
+```properties
+person.name=gaojian
+person.age=22
+person.death=false
+person.maps.key1=value1
+person.maps.key2=value2
+person.list=a,b,c
+person.dog.name=ogs
+person.dog.age=3
+```
+
+@ConfigurationProperties和@Value的对比
+
+|                             | @ConfigurationProperties | @Value   |
+| --------------------------- | ------------------------ | -------- |
+| 普通注入功能                | 批量注入属性值           | 单个注入 |
+| 松散绑定（-后的转大写）     | 支持                     | 不支持   |
+| SpEL                        | 不支持                   | 支持     |
+| JSR303校验                  | 支持                     | 不支持   |
+| 复杂类型（比如直接映射map） | 支持                     | 不支持   |
+
+JSR303校验使用方式：
+
+> @Validated
+
+#### 2.4从指定配置文件获取值（只支持properties文件）
+
+```java
+@Component
+@PropertySource("classpath:user.properties")
+@ConfigurationProperties(prefix = "user")
+```
+
+#### 2.5导入Spring配置文件
+
+```java
+@ImportResource
+```
+
