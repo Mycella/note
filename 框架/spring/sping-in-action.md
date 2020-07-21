@@ -138,3 +138,6 @@ idea配置：
 
 （4）**thymeleaf的自动重启参考雷锋杨教程**
 
+### 4.spring官方文档下载地址
+
+http://repo.springsource.org/libs-release-local/org/springframework/spring
