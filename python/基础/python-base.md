@@ -53,3 +53,59 @@ not->and->or
 ### 五.赋值运算
 
 不支持++和--
+
+### 六.输入和输出
+
+#### 1.格式化输出
+
+```python
+#占位符% 类型s
+name = 'gaojian'
+age = '18'
+print('i am %s, i am %s years old'%(name,age))
+
+#format格式化输出  {}占位，不需要指定类型
+print('我的名字:{}'.format(name))
+print('我的年龄:{}'.format(age))
+```
+
+#### 2.输入
+
+```python
+addr = input("请输入地址:")
+phone = input("请输入电话:")
+print('我的名字:{}'.format(name))
+print('我的年龄:{}'.format(age))
+print('我的地址:{}'.format(addr))
+print('我的电话:{}'.format(phone))
+```
+
+**format不需要类型转换，%d需要类型转换**
+
+```python
+int(input("请输入地址:"))
+```
+
+### 七.流程控制
+
+#### 1.分支
+
+```python
+if 条件:
+    执行语句
+elif:
+    执行语句
+else:
+    执行语句
+```
+
+#### 2.循环
+
+```
+while 条件:
+	执行语句
+
+for ... in 可迭代对象:
+	执行语句
+```
+

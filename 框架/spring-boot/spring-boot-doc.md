@@ -550,3 +550,33 @@ spring:
 
 ### 4.日志
 
+日志切换 日志配置，详情参照日志
+
+### 5.web开发
+
+#### 5.1.springboot对静态资源映射规则
+
+1）webjars映射路径
+
+/webjars/**  映射的路径 classpath:/META-INF/resources/webjars
+
+2）/**映射的路径
+
+```
+"classpath:/META-INF/resources/",
+"classpath:/resources/",
+"classpath:/static/", 
+"classpath:/public/",
+"/"
+```
+
+3）欢迎页映射
+
+```
+"classpath:/META-INF/resources/",
+"classpath:/resources/", 
+"classpath:/static/", 
+"classpath:/public/"
+```
+
+在上述位置的index.html
