@@ -339,7 +339,7 @@ public class Example {
 
 #### @SpringBootConfiguration：
 
-标记为spring的配置类
+标记为springboot的配置类
 
 #### @EnableAutoConfiguration：
 
@@ -497,4 +497,56 @@ JSR303校验使用方式：
 ```java
 @ImportResource
 ```
+
+### 3.profile
+
+#### 3.1多profile文件
+
+激活方式1：
+
+```yaml
+spring:
+  profiles:
+    active: dev
+```
+
+#### 3.2yaml文档块
+
+```yaml
+---
+server:
+  port: 8081
+spring:
+  profiles: dev
+```
+
+#### 3.3命令行方式指定参数
+
+#### 3.4虚拟机参数
+
+#### 3.5默认配置文件加载优先级
+
+> file:./config 
+>
+> file:./
+>
+> classpath:/config
+>
+> classpath:/
+
+优先级由高到低，高优先级覆盖低优先级
+
+#### 3.6改变默认配置文件位置
+
+```yaml
+spring:
+  config:
+    location: classpath:/location
+```
+
+#### 3.7加载优先级
+
+![image-20200720211037641](.\images\image-20200720211037641.png)
+
+### 4.日志
 
